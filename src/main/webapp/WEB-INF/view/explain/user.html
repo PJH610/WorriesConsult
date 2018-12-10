@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>user表</title>
+</head>
+<h3>用户文档</h3>
+<ul>
+    <li>
+        <p>POST <a href="/api/user/login">/api/user/login</a></p>
+        <p>描述: 登录</p>
+        <p>参数:mobile_phone (手机号,不为空),password(密码,不为空)</p>
+    </li>
+    <li>
+        <P>POST：<a href="/api/user/register">/api/user/register</a></P>
+        <P>描述：注册</P>
+        <P>参数：mobile_phone (手机号，不为空)，password (密码，不为空)，email (email，不为空)</P>
+    </li>
+
+    <li>
+        <P>POST：<a href="/api/user/update">/api/user/update</a></P>
+        <P>描述：修改用户信息 </P>
+        <P>参数：username (用户名，不为空)，email (邮箱，不为空)</P>
+        <form id="user-update-info-form">
+            <table>
+                <tr>
+                    <td>用户名：</td>
+                    <td><input type="text" name="username"></td>
+                </tr>
+                <tr>
+                    <td>邮箱：</td>
+                    <td><input type="text" name="email"></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="确定" onclick="updateUserInfo()"></td>
+                </tr>
+            </table>
+        </form>
+    </li>
+
+    <li>
+        <P>POST：<a href="/api/user/update/pwd">/api/user/update/pwd</a></P>
+        <P>描述：修改密码 </P>
+        <P>参数：password (密码，不为空)，new_password (新密码，不为空)，re_password (重新输入密码，不为空)</P>
+        <form id="user-update-pwd-form">
+            <table>
+                <tr>
+                    <td>原密码：</td>
+                    <td><input type="password" name="password"></td>
+                </tr>
+                <tr>
+                    <td>新密码：</td>
+                    <td><input type="password" name="new_password"></td>
+                </tr>
+                <tr>
+                    <td>重新输入密码：</td>
+                    <td><input type="password" name="re_password"></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="确定" onclick="updateUserPwd()"></td>
+                </tr>
+            </table>
+        </form>
+    </li>
+
+    <li>
+        <P>GET：<a href="/api/user/list">/api/user/list</a></P>
+        <P>描述：查询全部用户</P>
+        <P>参数：page_num (默认值为1，可为空)，page_size (默认值为10，可为空)</P>
+    </li>
+
+    <li>
+        <P>GET：<a href="/api/user/show/{id}">/api/user/show/{id}</a></P>
+        <P>描述：显示用户</P>
+        <P>参数：id (主键，不为空）</P>
+    </li>
+
+    <li>
+        <P>接口：<a href="/api/user/logout">/api/user/logout</a></P>
+        <P>描述：注销登录</P>
+    </li>
+
+    <li>
+        <P>POST：<a href="/api/user/delete">/api/user/delete</a></P>
+        <P>描述：删除用户</P>
+        <P>参数：id (主键，不为空）</P>
+    </li>
+</ul>
+</body>
+</html>
