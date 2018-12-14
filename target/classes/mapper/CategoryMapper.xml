@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.worriesconsult.dao.CategoryDao">
+
+    <resultMap id="CategoryMap" type="com.worriesconsult.bean.Category">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.worriesconsult.bean.Category" useGeneratedKeys="true" keyProperty="id">
+        insert into wc_category (name) values (#{name})
+    </insert>
+
+    <delete id="deleteBatch" >
+        delete from wc_category where id in
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <update id="updateById" parameterType="com.worriesconsult.bean.Category">
+        update wc_category
+        <set>
+            <if test="name !=null">name =#{name}</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="list" resultMap="CategoryMap">
+        select * from wc_category where id=#{id}
+    </select>
+
+    <select id="listByName" resultMap="CategoryMap">
+        select * from wc_category
+        <if test="name !=null">where wc_category.name LIKE #{name} "%"</if>
+        order by id desc
+    </select>
+</mapper>
