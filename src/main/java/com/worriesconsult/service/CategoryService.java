@@ -15,6 +15,7 @@ public interface CategoryService {
 
     List<Category> list();
 
-    // 模糊查
     List<Category>listByName(@Param("name") String name);
+
+    List<Category> listById(Long id);
 }

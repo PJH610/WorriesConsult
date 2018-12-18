@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.worriesconsult.dao.ProductDao">
+
+    <resultMap id="productMap" type="com.worriesconsult.bean.Product">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="subtitle" property="subtitle"/>
+        <result column="original_price" property="originalPrice"/>
+        <result column="promote_price" property="promotePrice"/>
+        <result column="stock" property="stock"/>
+        <result column="sale_count" property="saleCount"/>
+        <result column="review_count" property="reviewCount"/>
+        <result column="create_date" property="createDate"/>
+        <result column="category_id" property="categoryId"/>
+        <!--<association property="category" column="category_id" select="com.worriesconsult.dao.CategoryDao.listById"/>-->
+    </resultMap>
+    
+    <resultMap id="findProductImgMap" type="com.worriesconsult.bean.Product">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="subtitle" property="subtitle"/>
+        <result column="original_price" property="originalPrice"/>
+        <result column="promote_price" property="promotePrice"/>
+        <result column="stock" property="stock"/>
+        <result column="sale_count" property="saleCount"/>
+        <result column="review_count" property="reviewCount"/>
+        <result column="create_date" property="createDate"/>
+        <result column="category_id" property="categoryId"/>
+        <collection property="productImageList" column="id" select="com.worriesconsult.dao.ProductImageDao.listByProductId"/>
+    </resultMap>
+    
+    <resultMap id="findProductByCategoryIdMap" type="com.worriesconsult.bean.Product">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="subtitle" property="subtitle"/>
+        <result column="original_price" property="originalPrice"/>
+        <result column="promote_price" property="promotePrice"/>
+        <result column="stock" property="stock"/>
+        <result column="sale_count" property="saleCount"/>
+        <result column="review_count" property="reviewCount"/>
+        <result column="create_date" property="createDate"/>
+        <result column="category_id" property="categoryId"/>
+        <collection property="productImageList"  ofType="com.worriesconsult.bean.ProductImage">
+            <result property="id" column="id"/>
+            <result property="productId" column="product_id"/>
+            <result property="picture" column="picture"/>
+        </collection>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.worriesconsult.bean.Product" useGeneratedKeys="true" keyProperty="id">
+        insert into wc_product (name,subtitle,original_price,promote_price,stock,sale_count,review_count,create_date,category_id)
+        values
+        (#{name},#{subtitle},#{originalPrice},#{promotePrice},#{stock},#{saleCount},#{reviewCount},#{createDate},#{categoryId})
+    </insert>
+
+    <delete id="deleteBatch" >
+        delete from wc_product where id in
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <update id="update" parameterType="com.worriesconsult.bean.Product">
+        update wc_product
+        <set>
+            <if test="name != null">name=#{name},</if>
+            <if test="subtitle != null">subtitle=#{subtitle},</if>
+            <if test="originalPrice != null">original_price=#{originalPrice},</if>
+            <if test="stock != null">stock=#{stock},</if>
+            <if test="saleCount != null">sale_count=#{saleCount},</if>
+            <if test="reviewCount != null">review_count=#{reviewCount},</if>
+            <if test="createDate != null">create_date=#{createDate},</if>
+            <if test="categoryId != null">category_id=#{categoryId}</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="selectById" resultMap="findProductImgMap" parameterType="java.lang.Long">
+        SELECT * FROM  wc_product WHERE id=#{id}
+    </select>
+
+    <select id="selectByProductId" resultMap="productMap">
+        select * from wc_product where id=#{id}
+    </select>
+
+    <select id="list" resultMap="findProductImgMap" parameterType="java.lang.Long">
+        SELECT * FROM wc_product ORDER BY id DESC
+    </select>
+
+    <select id="selectByName" resultType="com.worriesconsult.bean.Product">
+        SELECT * FROM wc_product
+        <where>
+            <if test="name != null and name != ''">
+                name LIKE "%"#{name}"%"
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <select id="selectFindProductImg" resultMap="findProductImgMap" parameterType="java.lang.Long">
+       SELECT * FROM  wc_product WHERE id=#{id}
+    </select>
+
+    <select id="findImgByCategoryId" resultMap="findProductByCategoryIdMap" parameterType="java.lang.Long">
+        SELECT p.*,i.product_id,i.picture
+         FROM wc_product p LEFT JOIN wc_product_image i ON p.id = i.product_id WHERE  p.category_id=#{category_id}
+    </select>
+
+    <select id="selectByCategoryId" resultMap="productMap" parameterType="java.lang.Long">
+        SELECT * FROM wc_product p WHERE p.category_id = #{category_id}
+    </select>
+
+</mapper>

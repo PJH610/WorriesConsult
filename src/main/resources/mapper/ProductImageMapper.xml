@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.worriesconsult.dao.ProductImageDao">
+
+    <resultMap id="productImgMap" type="com.worriesconsult.bean.ProductImage">
+        <id column="id" property="id"/>
+        <result column="picture" property="picture"/>
+        <result column="product_id" property="productId"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.worriesconsult.bean.ProductImage" useGeneratedKeys="true" keyProperty="id">
+        insert into wc_product_image (picture,product_id) values
+        (#{picture},#{productId})
+    </insert>
+
+    <delete id="deleteBatch" >
+        delete from wc_product_image where id in
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+        #{item}
+        </foreach>
+    </delete>
+
+    <update id="update" parameterType="com.worriesconsult.bean.ProductImage">
+        update wc_product_image
+        <set>
+            <if test="picture != null">picture=#{picture}</if>
+            <if test="productId != null">product_id=#{productId}</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="selectById" resultType="com.worriesconsult.bean.ProductImage">
+        SELECT * FROM  wc_product_image WHERE id IN
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectByProductId" resultType="com.worriesconsult.bean.ProductImage">
+      select * from wc_product_image where product_id=#{product_id}
+    </select>
+
+    <select id="listById" resultType="com.worriesconsult.bean.ProductImage">
+        select * from wc_product_image where id=#{id}
+    </select>
+
+    <select id="select" resultType="com.worriesconsult.bean.ProductImage">
+        select * from wc_product_image
+    </select>
+
+    <select id="show" resultType="com.worriesconsult.bean.ProductImage">
+        SELECT * FROM wc_product_image WHERE product_id IN
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listByProductId" resultMap="productImgMap" parameterType="java.lang.Long">
+        SELECT * FROM wc_product_image WHERE product_id = #{product_id}
+    </select>
+
+</mapper>

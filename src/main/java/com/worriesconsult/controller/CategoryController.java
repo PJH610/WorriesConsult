@@ -53,4 +53,10 @@ public class CategoryController extends BaseApiController {
         PageHelper.startPage(page_num, page_size);
         return onDataResp(new MyPageInfo<Category>(categoryService.listByName(name)));
     }
+
+    @GetMapping ("/listById/{id}")
+    public Map<String, Object> selectById(@RequestParam(defaultValue = "1") Integer page_num, @RequestParam(defaultValue = "10") Integer page_size, @PathVariable Long id) {
+        PageHelper.startPage(page_num, page_size);
+        return onDataResp(new MyPageInfo<Category>(categoryService.listById(id)));
+    }
 }
