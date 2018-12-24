@@ -14,6 +14,7 @@ public class ProductImageServiceImpl implements ProductImageService {
     @Autowired
     ProductImageDao productImageDao;
 
+
     @Override
     public int insert(ProductImage productImage) {
         return productImageDao.insert(productImage);
@@ -21,13 +22,12 @@ public class ProductImageServiceImpl implements ProductImageService {
 
     @Override
     public int deleteBatch(Long... id) {
-        if (id ==null || id.length ==0) return 0;
         return productImageDao.deleteBatch(id);
     }
 
     @Override
     public int update(ProductImage productImage) {
-        if (productImage ==null) return 0;
+        if (productImage == null) return 0;
         return productImageDao.update(productImage);
     }
 
@@ -37,8 +37,8 @@ public class ProductImageServiceImpl implements ProductImageService {
     }
 
     @Override
-    public ProductImage selectByProductId(Long product_id) {
-        return productImageDao.selectByProductId(product_id);
+    public ProductImage listByProductId(Long product_id) {
+        return productImageDao.listByProductId(product_id);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ProductImageServiceImpl implements ProductImageService {
     }
 
     @Override
-    public List<ProductImage> listByProductId(Long id) {
-        return productImageDao.listByProductId(id);
+    public List<ProductImage> selectByProductId(Long id) {
+        return productImageDao.selectByProductId(id);
     }
 }

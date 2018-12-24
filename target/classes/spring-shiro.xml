@@ -87,7 +87,7 @@
         <!-- 管理器，必须设置 -->
         <property name="securityManager" ref="securityManager" />
         <!-- 拦截到，跳转到的地址,通过此地址去认证 -->
-        <property name="loginUrl" value="/index/index" />
+        <property name="loginUrl" value="/home/index" />
         <!-- 认证成功统一跳转到/admin/index.do，建议不配置，shiro认证成功自动到上一个请求路径 -->
         <property name="successUrl" value="/admin/index.do" />
         <!-- 通过unauthorizedUrl指定没有权限操作时跳转页面 -->
@@ -110,26 +110,23 @@
                 /js/** = anon
                 /img/** = anon
                 /style/** = anon
-                /api/moderator/list = anon
                 /api/college/list = anon
+                /api/product/list = anon
                 /api/user/list = anon
                 /api/user/select = anon
-                /api/one/list = anon
                 /app/** = anon
-                /image/** = anon
                 /index/** = anon
-                /bookstoreHome/** = anon
                 /api/user/pubkey = anon
                 /api/user/register = anon
                 /api/user/login = anon
                 /api/user/logout = logout
                 /api/** = anon
                 /explain/** = anon
+                /home/** = anon
                 /register = anon
                 /login = anon
                 /index.jsp = anon
                 /logout = logout
-                /** = authc
             </value>
         </property>
     </bean>

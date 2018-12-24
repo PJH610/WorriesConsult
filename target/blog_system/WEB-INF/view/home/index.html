@@ -1,0 +1,155 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>期末作业</title>
+    <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+    <style type="text/css">
+        @media only screen and (max-width : 320px) {
+            .main-card {
+                width: 100%;
+            }
+        }
+        @media only screen and (min-width: 321px) and (max-width : 480px) {
+            .main-card {
+                width: 50%;
+            }
+        }
+        @media only screen and (min-width: 481px) and (max-width : 720px) {
+            .main-card {
+                width: 33.3%;
+            }
+        }
+        @media only screen and (min-width: 721px) and (max-width : 1100px) {
+            .main-card {
+                width: 25%;
+            }
+        }
+        @media only screen and (min-width: 1101px) {
+            .main-card {
+                width: 20%;
+            }
+        }
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        .clear-float:after {
+            content: "";
+            clear: both;
+            display: block;
+        }
+        .main-card {
+            margin-bottom: 15px;
+            float: left;
+        }
+        .main-card-box {
+            margin-left: 15px;
+            margin-top: 15px;
+        }
+        .main-card-inner {
+            margin-right: 15px;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+        }
+        .main-card-inner:hover {
+            background: #eee;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+        .main-card-img-box {
+            width: 100%;
+            padding-bottom: 62.5%;
+            position: relative;
+        }
+        .main-card-img {
+            max-width: 100%;
+            max-height: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .text-title {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div style="width: 100%; height: 50px; line-height: 50px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
+    <span style="font-size: 22px; color: 000080; margin-left: 15px;">请大声说</span>
+    <div style="display: inline-block;">
+        <a>我</a>
+        <a>是</a>
+        <a>大</a>
+        <a>帅</a>
+        <a>哥</a>
+    </div>
+</div>
+<div style="padding: 20px 40px; text-align: center;">
+    <div>
+        <div style="max-width: 800px; margin-right: 280px; position: relative;">
+            <input type="text" name="" style="width: 100%; max-width: 800px; padding: 5px; ">
+            <a style="padding: 0 10px; background: red; height: 30px; position: absolute; top: 0; right: 0;">搜索</a>
+        </div>
+    </div>
+</div>
+<div id="main-content-box" class="clear-float main-card-box"></div>
+<div >7</div>
+<script type="text/javascript">
+    $(function() {
+        $.ajax({
+            url: "/data/list.json",
+            type: "get",
+            data: "",
+            dataType: "json",
+            cache:false,//去掉缓存
+
+            beforeSend: function() {
+
+            },
+            complete: function() {
+
+            },
+            success: function(result) {
+                console.log(result.list.length);
+
+                var str = '';
+                var list = result.list;
+                for (x in list) {
+                    str +=
+                        '<div class="main-card">' +
+                        '<div class="main-card-inner">' +
+                        '<div class="main-card-img-box">' +
+                        '<img class="main-card-img" src="' + list[x].img + '">' +
+                        '</div>' +
+                        '<div style="padding: 5px 10px;">' +
+                        '<div class="text-title">' + list[x].title + '</div>' +
+                        '<div>' + list[x].time + '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+                }
+                $("#main-content-box").html(str);
+
+            },
+            error: function() {
+
+            }
+        });
+    });
+
+    $(function(){
+        $("input[type=button]").click(function(){
+            var txt=$("input[type=text]").val();
+            if($.trim(txt)!=""){
+
+                $("div:not('#main-content-box')").hide().filter("div:contains('"+txt+"')").show();
+            }else{
+                $("div:not('#main-content-box')").css("background","#fff").show();
+            }
+        });
+    })
+
+</script>
+</body>
+</html>

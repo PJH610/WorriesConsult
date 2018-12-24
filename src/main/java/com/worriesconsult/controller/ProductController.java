@@ -1,7 +1,6 @@
 package com.worriesconsult.controller;
 
 import com.github.pagehelper.PageHelper;
-import com.worriesconsult.bean.Category;
 import com.worriesconsult.bean.MyPageInfo;
 import com.worriesconsult.bean.Product;
 import com.worriesconsult.service.ProductService;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -71,5 +71,48 @@ public class ProductController extends BaseApiController{
         return onBadResp("修改失败");
     }
 
+    @GetMapping("/selectById")
+    public Map<String, Object> selectById(@RequestParam Long id) {
+        return onDataResp(productService.selectById(id));
+    }
+
+    @GetMapping("/selectByProductId")
+    public Map<String, Object> selectByProductId (@RequestParam(defaultValue = "1") Integer page_num, @RequestParam(defaultValue = "5") Integer page_size,@RequestParam Long id){
+        PageHelper.startPage(page_num,page_size);
+        return onDataResp(new MyPageInfo<Product>((List<Product>) productService.selectByProductId(id)));
+    }
+
+    @GetMapping("/list")
+    public Map<String, Object> list(@RequestParam(defaultValue = "1") Integer page_num, @RequestParam(defaultValue = "10") Integer page_size) {
+        PageHelper.startPage(page_num, page_size);
+        return onDataResp(new MyPageInfo<Product>(productService.list()));
+    }
+
+    @GetMapping("/selectByName")
+    public Map<String, Object> list(@RequestParam(defaultValue = "1") Integer page_num, @RequestParam(defaultValue = "10") Integer page_size, @RequestParam String name) {
+        PageHelper.startPage(page_num, page_size);
+        return onDataResp(new MyPageInfo<Product>(productService.selectByName(name)));
+    }
+
+    @GetMapping("/selectFindProductImg/{id}")
+    public Map<String, Object> selectFindProductImg(@RequestParam(defaultValue = "1") Integer page_num, @RequestParam(defaultValue = "10") Integer page_size, @PathVariable Long id) {
+        PageHelper.startPage(page_num, page_size);
+        return onDataResp(new MyPageInfo<Product>(productService.selectFindProductImg(id)));
+    }
+
+    // 通过分类id查询产品信息和图片
+    @GetMapping("/findImgByCategoryId/{category_id}")
+    public Map<String, Object> findImgByCategoryId(@RequestParam(required = true, defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize, @PathVariable Long category_id) {
+        PageHelper.startPage(pageNo, pageSize);
+        return onDataResp(new MyPageInfo<Product>(productService.findImgByCategoryId(category_id)));
+    }
+
+    // 查
+    @GetMapping("/selectByCategoryId/{category_id}")
+    public Map<String, Object> selectByCategoryId(@RequestParam(defaultValue = "1") Integer page_num, @RequestParam(defaultValue = "5") Integer page_size, @PathVariable Long category_id)
+    {
+        PageHelper.startPage(page_num,page_size);
+        return onDataResp(new MyPageInfo<Product>(productService.selectByCategoryId(category_id)));
+    }
 
 }
